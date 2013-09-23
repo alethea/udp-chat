@@ -6,5 +6,6 @@ from distutils.core import setup
 setup(
     name='tinychat',
     version='0.0', 
-    packages=['tinychat']
+    packages=['tinychat'],
+    scripts=['scripts/tinychat-server.py']
 )

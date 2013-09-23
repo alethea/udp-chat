@@ -36,6 +36,3 @@ class Server:
             self.sock.close()
         except socket.error as e:
             print(e)
-
-if __name__ == '__main__':
-    Server().run()
