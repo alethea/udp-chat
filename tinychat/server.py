@@ -27,7 +27,7 @@ class Server(object):
                 print(e)
                 break
             except KeyboardInterrupt:
-                print("I can see when I'm not wanted.")
+                print("I can see when I\'m not wanted.")
                 break
 
     def __del__(self):
@@ -36,3 +36,6 @@ class Server(object):
             self.sock.close()
         except socket.error as e:
             print(e)
+
+if __name__ == '__main__':
+    Server().run()
