@@ -17,7 +17,8 @@ class Server:
         self.sock.settimeout(timeout)
         while self.running:
             try:
-                message, address = self.sock.recvfrom(1024)
+                raw_message, address = self.sock.recvfrom(1024)
+                message = raw_message.decode('UTF-8')
                 print ("Message from %r: %s" % (address, message))
             except socket.timeout:
                 print(".", end="")
