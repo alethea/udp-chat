@@ -15,6 +15,7 @@ class Client:
             try:
                 message = bytes(input("Message? "), "UTF-8")
             except EOFError:
+                print('\nDone')
                 self.running = False
                 break
             if message:
