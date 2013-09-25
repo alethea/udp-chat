@@ -5,9 +5,9 @@ import socket
 
 
 class Client:
-    def __init__(self, server_addr=("127.0.0.1", 5280)):
+    def __init__(self, dest_addr=("127.0.0.1", 5280)):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.server_addr = server_addr
+        self.dest_addr = dest_addr
         self.running = True
 
     def run(self):
@@ -18,7 +18,7 @@ class Client:
                 self.running = False
                 break
             if message:
-                sent = self.sock.sendto(message, self.server_addr)
+                sent = self.sock.sendto(message, self.dest_addr)
                 print("{0} bytes sent".format(sent))
             else:
                 print("no message sent")
