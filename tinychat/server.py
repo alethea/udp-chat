@@ -19,7 +19,7 @@ class Server:
             try:
                 raw_message, address = self.sock.recvfrom(1024)
                 message = raw_message.decode('UTF-8')
-                print ("Message from %r: %s" % (address, message))
+                print ("\nMessage from %r: %s" % (address, message))
             except socket.timeout:
                 print(".", end="")
                 sys.stdout.flush()
@@ -28,7 +28,7 @@ class Server:
                 print(e)
                 break
             except KeyboardInterrupt:
-                print("I can see when I\'m not wanted.")
+                print("\nI can see when I\'m not wanted.")
                 break
 
     def __del__(self):
