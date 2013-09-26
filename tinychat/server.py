@@ -6,7 +6,7 @@ import socket
 import sys
 
 class Server:
-    def __init__(self, bind_addr=("127.0.0.1", 5280)):
+    def __init__(self, bind_addr=("0.0.0.0", 5280)):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.bind_addr = bind_addr
         self.running = False
