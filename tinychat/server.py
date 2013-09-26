@@ -6,7 +6,7 @@ import socket
 import sys
 
 class Server:
-    def __init__(self, bind_addr=("127.0.0.1", 5280)):
+    def __init__(self, bind_addr=("0.0.0.0", 5280)):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.bsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.bsock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
@@ -21,7 +21,8 @@ class Server:
         self.sock.settimeout(timeout)
         while self.running:
             try:
-                message, address = self.sock.recvfrom(1024)
+                raw_message, address = self.sock.recvfrom(1024)
+                message = raw_message.decode('UTF-8')
                 s = "Message from %r: %s" % (address, message)
                 self.bsock.sendto(s.encode("UTF-8"), ('<broadcast>', self.bind_addr[1]))
                 print(s)
@@ -33,7 +34,7 @@ class Server:
                 print(e)
                 break
             except KeyboardInterrupt:
-                print("I can see when I\'m not wanted.")
+                print("\nI can see when I\'m not wanted.")
                 break
 
     def __del__(self):

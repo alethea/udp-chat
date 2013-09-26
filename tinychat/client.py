@@ -6,12 +6,11 @@ import threading
 
 
 class Client:
-    def __init__(self, server_addr=("127.0.0.1", 5280)):
+    def __init__(self, dest_addr=("127.0.0.1", 5280)):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.bsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.server_addr = server_addr
+        self.dest_addr = dest_addr
         self.running = True
-        self.port = server_addr[1]
         self.thread = None
 
     def recvthread(self):
@@ -23,7 +22,7 @@ class Client:
             print(message)
 
     def run(self):
-        self.bsock.bind(("0.0.0.0", self.port))
+        self.bsock.bind(("0.0.0.0", self.dest_addr[1]))
         self.bsock.settimeout(2)
         self.thread = threading.Thread(target=self.recvthread)
         self.thread.run()
@@ -32,11 +31,12 @@ class Client:
             try:
                 message = bytes(input("Message? "), "UTF-8")
             except EOFError:
+                print('\nDone')
                 self.running = False
                 self.thread.join()
                 break
             if message:
-                sent = self.sock.sendto(message, self.server_addr)
+                sent = self.sock.sendto(message, self.dest_addr)
                 print("{0} bytes sent".format(sent))
             else:
                 print("no message sent")
