@@ -2,20 +2,38 @@
 # Alethea Butler
 
 import socket
+import threading
 
 
 class Client:
     def __init__(self, server_addr=("127.0.0.1", 5280)):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.bsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_addr = server_addr
         self.running = True
+        self.port = server_addr[1]
+        self.thread = None
+
+    def recvthread(self):
+        while self.running:
+            try:
+                message, address = self.bsock.recvfrom(1024)
+            except socket.timeout:
+                continue
+            print(message)
 
     def run(self):
+        self.bsock.bind(("0.0.0.0", self.port))
+        self.bsock.settimeout(2)
+        self.thread = threading.Thread(target=self.recvthread)
+        self.thread.run()
+
         while self.running:
             try:
                 message = bytes(input("Message? "), "UTF-8")
             except EOFError:
                 self.running = False
+                self.thread.join()
                 break
             if message:
                 sent = self.sock.sendto(message, self.server_addr)
