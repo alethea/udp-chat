@@ -9,8 +9,9 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-H', '--hostname', type=str, default='0.0.0.0')
 parser.add_argument('-p', '--port', type=int, default=5280)
+parser.add_argument('-c', '--clientport', type=int, default=5281)
 parser.add_argument('-t', '--timeout', type=float, default=2.0)
 
 args = parser.parse_args()
 
-Server(bind_addr=(args.hostname, args.port)).run(timeout=args.timeout)
+Server(bind_addr=(args.hostname, args.port), client_port=args.clientport).run(timeout=args.timeout)
